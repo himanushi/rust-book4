@@ -63,3 +63,14 @@ struct EfiGraphicsOutoutProtocol<'a> {
     reserved: [u64; 3],
     pub mode: &'a EfiGraphicsOutoutProtocolMode<'a>,
 }
+
+#[repr(C)]
+#[derive(Debug)]
+struct EfiGraphicsOutoutProtocolMode<'a> {
+    pub max_mode: u32,
+    pub mode: u32,
+    pub info: &'a EfiGraphicsOutoutProtocolPixelInfo,
+    pub size_of_info: u64,
+    pub frame_buffer_base: usize,
+    pub frame_buffer_base: usize,
+}
