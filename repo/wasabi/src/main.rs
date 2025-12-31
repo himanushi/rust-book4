@@ -84,3 +84,5 @@ struct EfiGraphicsOutoutProtocolPixelInfo {
     _padding0: [u32; 5],
     pub pixels_per_scan_line: u32,
 }
+const _: () = assert!(size_of::<EfiGraphicsOutoutProtocolPixelInfo>() == 36);
+
