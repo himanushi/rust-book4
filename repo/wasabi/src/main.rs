@@ -8,6 +8,10 @@ use core::panic::PanicInfo;
 use core::ptr::null_mut;
 use core::slice;
 
+type EfiVoid = u8;
+type EfiHandle = u64;
+type Result<T> = core::result::Result<T, &'static str>;
+
 #[no_mangle]
 fn efi_main(_image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     let efi_graphics_output_protocol = locate_graphic_protocol(efi_system_table).unwrap();
