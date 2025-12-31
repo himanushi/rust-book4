@@ -16,7 +16,7 @@ fn efi_main(_image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     loop {}
 }
 
-use core::{intrinsics::size_of, mem::offset_of, panic::PanicInfo, slice};
+use core::{intrinsics::size_of, mem::offset_of, panic::PanicInfo, ptr::null_mut, slice};
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -86,3 +86,18 @@ struct EfiGraphicsOutoutProtocolPixelInfo {
 }
 const _: () = assert!(size_of::<EfiGraphicsOutoutProtocolPixelInfo>() == 36);
 
+fn locate_graphic_protocol<'a>(
+    efi_system_table: &EfiSystemTable,
+) -> Result<&'a EfiGraphicsOutoutProtocol<'a>> {
+    let mut graphic_output_protocol = null_mut::<EfiGraphicsOutoutProtocol>();
+    let status = (efi_system_table.boot_services.locate_protocol) (
+        &EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID,
+        null_mut::<EfiVoid>(),
+        &mut graphic_output_protocol as *mut *mut EfiGraphicsOutoutProtocol
+            as *mut *mut EfiVoid,
+    );
+    if status != EfiStatus::Success {
+        return Err("Failed to locate graphics output protocol");
+    }
+    Ok(unsafe { &*graphic_output_protocol })
+}
