@@ -40,3 +40,19 @@ struct EfiSystemTable {
     pub boot_services: &'static EfiBootServicesTable,
 }
 const _: () = assert!(offset_of!(EfiBootServicesTable, boot_services) == 96);
+
+const EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID: EfiGuid =  EfiGui {
+    data0: 0x9042a9de,
+    data1: 0x23dc,
+    data2: 0x4a38,
+    data3: [0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a],
+};
+
+#[repr(C)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+struct EfiGuid {
+    pub data0: u32,
+    pub data1: u16,
+    pub data2: u16,
+    pub data3: [u8; 8],
+}
