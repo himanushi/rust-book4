@@ -1,5 +1,8 @@
 #![no_std]
-fn main() {
+#![no_main]
+
+#[no_mangle]
+fn efi_main() {
     //println!("Hello, world!");
     loop {}
 }
