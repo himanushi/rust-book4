@@ -16,9 +16,27 @@ fn efi_main(_image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     loop {}
 }
 
-use core::{intrinsics::size_of, panic::PanicInfo, slice};
+use core::{intrinsics::size_of, mem::offset_of, panic::PanicInfo, slice};
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
+
+#[repr(C)]
+struct EfiBootServicesTable {
+    _reserved0: [u64; 40],
+    locate_protocol: extern "win64" fn(
+        protocol: *const EfiGuid,
+        registration: *const EfiVoid,
+        interface: *mut EfiVoid,
+    ) -> EfiStatus,
+}
+const _: () = assert!(offset_of!(EfiBootServicesTable, locate_protocol) == 320);
+
+#[repr(C)]
+struct EfiSystemTable {
+    _reserved0: [u64; 12],
+    pub boot_services: &'static EfiBootServicesTable,
+}
+const _: () = assert!(offset_of!(EfiBootServicesTable, boot_services) == 96);
