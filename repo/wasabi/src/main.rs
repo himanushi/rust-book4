@@ -1,5 +1,12 @@
 #![no_std]
 #![no_main]
+#![feature(offset_of)]
+
+use core::mem::offset_of;
+use core::mem::size_of;
+use core::panic::PanicInfo;
+use core::ptr::null_mut;
+use core::slice;
 
 #[no_mangle]
 fn efi_main(_image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
