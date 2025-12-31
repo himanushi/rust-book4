@@ -74,3 +74,13 @@ struct EfiGraphicsOutoutProtocolMode<'a> {
     pub frame_buffer_base: usize,
     pub frame_buffer_base: usize,
 }
+
+#[repr(C)]
+#[derive(Debug)]
+struct EfiGraphicsOutoutProtocolPixelInfo {
+    version: u32,
+    pub horizontal_resolution: u32,
+    pub vertical_resolution: u32,
+    _padding0: [u32; 5],
+    pub pixels_per_scan_line: u32,
+}
