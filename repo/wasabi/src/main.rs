@@ -56,3 +56,10 @@ struct EfiGuid {
     pub data2: u16,
     pub data3: [u8; 8],
 }
+
+#[repr(C)]
+#[derive(Debug)]
+struct EfiGraphicsOutoutProtocol<'a> {
+    reserved: [u64; 3],
+    pub mode: &'a EfiGraphicsOutoutProtocolMode<'a>,
+}
